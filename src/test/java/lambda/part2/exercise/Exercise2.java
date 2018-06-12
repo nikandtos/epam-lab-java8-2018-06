@@ -80,15 +80,15 @@ public class Exercise2 {
 
     @Test
     public void personHasNotEmptyLastNameAndFirstNameUsingStandardMethods() {
-        Predicate<Person> personHasEmptyFirstName = null;
-        Predicate<Person> personHasEmptyLastName = null;
+        Predicate<Person> personHasEmptyFirstName = p->p.getFirstName().isEmpty();
+        Predicate<Person> personHasEmptyLastName =  p->p.getLastName().isEmpty();
 
         // TODO использовать Predicate.negate
-        Predicate<Person> personHasNotEmptyFirstName = null;
-        Predicate<Person> personHasNotEmptyLastName = null;
+        Predicate<Person> personHasNotEmptyFirstName = personHasEmptyFirstName.negate();
+        Predicate<Person> personHasNotEmptyLastName = personHasEmptyLastName.negate();
 
         // TODO использовать Predicate.and
-        Predicate<Person> personHasNotEmptyLastNameAndFirstName = null;
+        Predicate<Person> personHasNotEmptyLastNameAndFirstName = personHasNotEmptyFirstName.and(personHasNotEmptyLastName);
 
         assertTrue(personHasNotEmptyLastNameAndFirstName.test(new Person("Алексей", "Доренко", 40)));
         assertFalse(personHasNotEmptyLastNameAndFirstName.test(new Person("Николай", "", 30)));
