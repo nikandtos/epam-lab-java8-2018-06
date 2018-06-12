@@ -1,10 +1,9 @@
 package lambda.part1.exercise;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.StringJoiner;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 @SuppressWarnings({"FieldCanBeLocal", "ConstantConditions", "unused"})
 public class Exercise2 {
@@ -40,15 +39,16 @@ public class Exercise2 {
 
     @Test
     public void implementsMultiplierUsingStatementLambda() {
-        Multiplier<Integer> multiplier = (Integer a, int b)-> a*b;
+        Multiplier<Integer> multiplier = (Integer a, int b)-> {
+            return a*b;
+        };
 
         testIntegerMultiplier(multiplier);    }
 
     @Test
     public void implementsIntegerMultiplierUsingExpressionLambda() {
-        Multiplier<Integer> multiplier = (Integer a, int b)-> {
-            return a*b;
-        };
+        Multiplier<Integer> multiplier = (Integer a, int b)-> a*b;
+
         testIntegerMultiplier(multiplier);
     }
 
