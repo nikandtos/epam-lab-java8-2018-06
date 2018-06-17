@@ -1,12 +1,11 @@
 package api.exercise;
 
-import lambda.data.Person;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
+import lambda.data.Person;
+import org.junit.Test;
 
 @SuppressWarnings({"ConstantConditions", "unused", "MismatchedQueryAndUpdateOfCollection"})
 public class Exercise1 {
@@ -30,6 +29,12 @@ public class Exercise1 {
         candidates.put(helen, Status.PENDING);
 
         // TODO реализация
+        candidates.forEach((person,status)->
+            candidates.replace(person,person.getAge()<21?
+                                        Status.DECLINED:
+                                        Status.ACCEPTED
+            )
+        );
 
         assertEquals(Status.ACCEPTED, candidates.get(ivan));
         assertEquals(Status.ACCEPTED, candidates.get(helen));
@@ -52,6 +57,9 @@ public class Exercise1 {
 
         // TODO реализация
 
+        candidates.keySet().removeIf(p->p.getAge()<=21);
+        candidates.forEach((person,v)->candidates.replace(person,Status.ACCEPTED));
+
         Map<Person, Status> expected = new HashMap<>();
         expected.put(ivan, Status.ACCEPTED);
         expected.put(helen, Status.ACCEPTED);
@@ -69,9 +77,9 @@ public class Exercise1 {
 
         // TODO реализация
 
-        Status alexStatus = null;
-        Status ivanStatus = null;
-        Status helenStatus = null;
+        Status alexStatus = candidates.getOrDefault(alex,Status.UNKNOWN);
+        Status ivanStatus = candidates.getOrDefault(ivan,Status.UNKNOWN);
+        Status helenStatus = candidates.getOrDefault(helen,Status.UNKNOWN);
 
         assertEquals(Status.PENDING, alexStatus);
         assertEquals(Status.PENDING, ivanStatus);
@@ -94,6 +102,8 @@ public class Exercise1 {
         newValues.put(helen, Status.PENDING);
 
         // TODO реализация
+
+        oldValues.forEach(newValues::putIfAbsent);
 
         assertEquals(Status.DECLINED, newValues.get(alex));
         assertEquals(Status.ACCEPTED, newValues.get(ivan));
