@@ -1,10 +1,12 @@
 package api.exercise;
 
-import org.junit.Test;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
+import java.util.Arrays;
 import java.util.function.BinaryOperator;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class Exercise2 {
 
@@ -47,9 +49,16 @@ public class Exercise2 {
      * @see <a href="https://habr.com/company/epam_systems/blog/247805">Сканирование</a>
      */
     private static <T> T[] sequentialPrefix(T[] source, BinaryOperator<T> operator) {
-        throw new UnsupportedOperationException();
+        int N = source.length - 1;
+        T[] result = Arrays.copyOf(source, N + 1);
+        for (int i = 0; i < log2(source.length) + 1; i++) {
+            int dist = pow(2, i);
+            for (int j = N; j > dist - 1; j--) {
+                result[j] = operator.apply(result[j], result[j - dist]);
+            }
+        }
+        return result;
     }
-
     @Test
     public void log2TestNormalCases() {
         assertEquals(0, log2(1));
@@ -76,7 +85,14 @@ public class Exercise2 {
      * @throws IllegalArgumentException Если {@code value <= 0}
      */
     private static int log2(int value) throws IllegalArgumentException {
-        throw new UnsupportedOperationException();
+        if (value <= 0) {
+            throw new IllegalArgumentException();
+        }
+        int res = 0;
+        while ((value >>= 1) != 0) {
+            res++;
+        }
+        return res;
     }
 
     @Test
@@ -107,6 +123,9 @@ public class Exercise2 {
      * @throws IllegalArgumentException Если {@code base < 0} или {@code degree < 0}
      */
     private static int pow(int base, int degree) throws IllegalArgumentException {
-        throw new UnsupportedOperationException();
+        if (base < 0 || degree < 0) {
+            throw new IllegalArgumentException();
+        }
+        return (int)Math.pow(base,degree);
     }
 }
