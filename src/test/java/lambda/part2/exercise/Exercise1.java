@@ -18,7 +18,7 @@ public class Exercise1 {
         Person person = new Person("Иван", "Мельников", 33);
 
         // TODO создать переменную ageExtractor: Person -> Integer, используя Function и ссылку на метод
-        Function<Person, Integer> ageExtractor=Person::getAge;
+        Function<Person, Integer> ageExtractor = Person::getAge;
 
         assertEquals(33, ageExtractor.apply(person).intValue());
 
@@ -32,23 +32,26 @@ public class Exercise1 {
 
         // TODO создать переменную sameAgesChecker: (Person, Person) -> boolean, используя BiPredicate
 
-        BiPredicate<Person, Person> sameAgesChecker = (p1,p2)->p1.getAge()==p2.getAge();
-         assertTrue(sameAgesChecker.test(person1, person2));
-         assertFalse(sameAgesChecker.test(person1, person3));
-         assertFalse(sameAgesChecker.test(person2, person3));
+        BiPredicate<Person, Person> sameAgesChecker = (p1, p2) -> p1.getAge() == p2.getAge();
+        assertTrue(sameAgesChecker.test(person1, person2));
+        assertFalse(sameAgesChecker.test(person1, person3));
+        assertFalse(sameAgesChecker.test(person2, person3));
 
-        }
+    }
 
     // TODO метод getFullName: Person -> String, извлекающий из объекта Person строку в формате "имя фамилия".
-     private static String getFullName(Person p) {return p.getFirstName()+" "+p.getLastName();}
+    private static String getFullName(Person p) {
+        return p.getFirstName() + " " + p.getLastName();
+    }
 
     // TODO метод createExtractorAgeOfPersonWithTheLongestFullName: (Person -> String) -> ((Person, Person) -> int),
     // TODO - принимающий способ извлечения полного имени из объекта Person
     // TODO - возвращающий BiFunction, сравнивающий два объекта Person и возвращающий возраст того, чье полное имя длиннее.
-     public BiFunction<Person,Person, Integer> createExtractorAgeOfPersonWithTheLongestFullName (Function<Person, String> function){
-        return (p1, p2)->function.apply(p1).compareTo(function.apply(p2))>0?
-                            p1.getAge():p2.getAge();
-     }
+    public BiFunction<Person, Person, Integer> createExtractorAgeOfPersonWithTheLongestFullName(
+        Function<Person, String> function) {
+        return (p1, p2) -> function.apply(p1).compareTo(function.apply(p2)) > 0 ?
+            p1.getAge() : p2.getAge();
+    }
 
 
     @Test
@@ -61,8 +64,10 @@ public class Exercise1 {
 
         // (Person, Person) -> Integer
         // TODO воспользоваться методом createExtractorAgeOfPersonWithTheLongestFullName
-        BiFunction<Person, Person, Integer> extractorAgeOfPersonWithTheLongestFullName = createExtractorAgeOfPersonWithTheLongestFullName(getFullName);
+        BiFunction<Person, Person, Integer> extractorAgeOfPersonWithTheLongestFullName = createExtractorAgeOfPersonWithTheLongestFullName(
+            getFullName);
 
-        assertEquals(33, extractorAgeOfPersonWithTheLongestFullName.apply(person1, person2).intValue());
+        assertEquals(33,
+            extractorAgeOfPersonWithTheLongestFullName.apply(person1, person2).intValue());
     }
 }
