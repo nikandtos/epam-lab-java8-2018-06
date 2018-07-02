@@ -1,12 +1,11 @@
 package spliterators.exercise;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class Exercise1 {
 
@@ -39,7 +38,7 @@ public class Exercise1 {
 
     @Test
     public void testMaxUsingSpliterator() {
-        int[][] data = Stream.generate(() -> IntStream.generate(() -> 42)
+          int[][] data = Stream.generate(() -> IntStream.generate(() -> 42)
                                                       .limit(5)
                                                       .toArray())
                              .limit(10)
