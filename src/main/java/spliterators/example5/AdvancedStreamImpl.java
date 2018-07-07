@@ -1,15 +1,28 @@
 package spliterators.example5;
 
-import org.jetbrains.annotations.NotNull;
-import spliterators.example4.IndexedValue;
-import spliterators.example4.Pair;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.Spliterator;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
+import java.util.function.UnaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+import org.jetbrains.annotations.NotNull;
 
 public class AdvancedStreamImpl<T> implements AdvancedStream<T> {
 
@@ -21,7 +34,12 @@ public class AdvancedStreamImpl<T> implements AdvancedStream<T> {
 
     @Override
     public AdvancedStream<T> takeWhile(Predicate<? super T> predicate) {
-        throw new UnsupportedOperationException();
+        return new AdvancedStreamImpl<>(
+            StreamSupport.stream(
+            new TakeWhileSpliterator<>(
+                original.spliterator(),
+                predicate),
+            false));
     }
 
     // Delegate methods
@@ -132,12 +150,14 @@ public class AdvancedStreamImpl<T> implements AdvancedStream<T> {
     }
 
     @Override
-    public <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner) {
+    public <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator,
+                        BinaryOperator<U> combiner) {
         return original.reduce(identity, accumulator, combiner);
     }
 
     @Override
-    public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner) {
+    public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator,
+                         BiConsumer<R, R> combiner) {
         return original.collect(supplier, accumulator, combiner);
     }
 
