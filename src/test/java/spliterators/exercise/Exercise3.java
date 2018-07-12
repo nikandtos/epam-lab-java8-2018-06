@@ -1,8 +1,7 @@
 package spliterators.exercise;
 
-import org.junit.Test;
-import spliterators.example4.Pair;
-import spliterators.example5.AdvancedStreamImpl;
+import static java.util.stream.Collectors.toMap;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,9 +10,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toMap;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import spliterators.example4.Pair;
+import spliterators.example5.AdvancedStreamImpl;
 
 public class Exercise3 {
 

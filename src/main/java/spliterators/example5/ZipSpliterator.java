@@ -1,20 +1,28 @@
 package spliterators.example5;
 
+import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
+import spliterators.example4.Pair;
 
-public class ZipSpliterator<T> extends Spliterators.AbstractSpliterator<T> {
+public class ZipSpliterator<T, U> extends Spliterators.AbstractSpliterator<Pair<T,U>> {
 
-    public ZipSpliterator() {
+    private Spliterator<T> origin;
+    private Spliterator<U> another;
+
+    public ZipSpliterator(Spliterator<T> origin, Spliterator<U> another) {
         // TODO implementation
-        super(0, 0);
+        super(origin.estimateSize(), another.characteristics() & ~CONCURRENT);
+        this.origin = origin;
+        this.another = another;
     }
+
 
     @Override
-    public boolean tryAdvance(Consumer<? super T> action) {
+    public boolean tryAdvance(Consumer<? super Pair<T,U>> action) {
         // TODO implementation
-        throw new UnsupportedOperationException();
+        return origin.tryAdvance(
+            x->another.tryAdvance(
+                y->action.accept(new Pair<>(x,y))));
     }
-
-    // TODO other methods of spliterator
 }
